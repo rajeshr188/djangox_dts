@@ -1,0 +1,21 @@
+{% extends "_base.html" %}
+
+{% block content %}
+    <p><h2>Companies</h2>
+    {% if is_owner%}
+    <a class="btn btn-success" href="{% url 'org_company_create' %}">create</a>
+    {%endif%}
+    </p>
+    <table class = "table table-sm">
+        <thead>
+            <tr>
+                <th>Name</th><th>Paid</th><th>Members</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>{{c}} </td><td> {{paid}} </td> <td><a href="{% url 'org_members_list'%}">members</a></td></tr>
+        </tbody>
+    </table>
+ 
+    
+{% endblock %}

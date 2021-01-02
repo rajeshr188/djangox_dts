@@ -5,8 +5,8 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')),
-    path('orgs/',include('org.urls')),
-    path('contact/',include('contacts.urls')),
+    path('orgs/', include('org.urls')),
+    path('dea/', include('dea.urls')),
     path('', include('pages.urls')),
 ]
 
@@ -14,4 +14,4 @@ if settings.DEBUG:
     import debug_toolbar
     urlpatterns = [
         path('__debug__/', include(debug_toolbar.urls)),
-] + urlpatterns
+    ] + urlpatterns

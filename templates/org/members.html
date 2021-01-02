@@ -1,0 +1,15 @@
+{% extends '_base.html' %}
+
+{% block title %}Members{% endblock %}
+
+{% block content %}
+<h1>List of Members</h1>
+<ul>
+    {%for i in members%}
+        <li>{{i}}</li>
+    {%endfor%}
+</ul>
+    {% if is_owner%}
+    <a class = "btn btn-success" href="{% url 'org_members_create' %}">create</a>
+    {%endif%}
+{% endblock content %}

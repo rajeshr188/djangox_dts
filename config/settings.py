@@ -9,12 +9,32 @@ SECRET_KEY = '43)%4yx)aa@a=+_c(fn&kf3g29xax+=+a&key9i=!98zyim=8j'
 # https://docs.djangoproject.com/en/dev/ref/settings/#debug
 DEBUG = True
 # https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = ["localhost", "0.0.0.0", "127.0.0.1"]
+ALLOWED_HOSTS = ["dilip.localhost","localhost", "0.0.0.0", "127.0.0.1"]
 
 # APPS
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
+SHARED_APPS = [
+    'tenant_schemas',  # mandatory, should always be before any django app
+    'org',  # you must list the app where your tenant model resides in
+    'allauth',
+    'allauth.account',
+    'accounts',
+    'django.contrib.contenttypes',
+
+    # everything below here is optional
+    'django.contrib.auth',
+    'django.contrib.sessions',
+    'django.contrib.sites',
+    'django.contrib.messages',
+    'django.contrib.admin',
+]
+TENANT_APPS = [
+    'django.contrib.contenttypes',
+    'contacts','dea',
+]
 INSTALLED_APPS = [
+    'tenant_schemas',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -29,16 +49,22 @@ INSTALLED_APPS = [
     'allauth.account',
     'crispy_forms',
     'debug_toolbar',
+    'mptt',
 
     # Local
     'accounts',
     'pages',
-]
+    'org','contacts', 'dea',
+    ]
+TENANT_MODEL = "org.Company"
+PUBLIC_SCHEMA_NAME = 'public'
 
+DEFAULT_FILE_STORAGE = 'tenant_schemas.storage.TenantFileSystemStorage'
 # MIDDLEWARE
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#middleware
 MIDDLEWARE = [
+    # 'tenant_schemas.middleware.TenantMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -46,6 +72,7 @@ MIDDLEWARE = [
     'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'org.middleware.RequestUserTenantMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -53,7 +80,8 @@ MIDDLEWARE = [
 # URLS
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#root-urlconf
-ROOT_URLCONF = "config.urls"
+ROOT_URLCONF = "config.tenant_urls"
+PUBLIC_SCHEMA_URLCONF = "config.public_urls"
 # https://docs.djangoproject.com/en/dev/ref/settings/#wsgi-application
 WSGI_APPLICATION = "config.wsgi.application"
 
@@ -80,12 +108,20 @@ TEMPLATES = [
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#databases
 DATABASES = {
+   
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+
+        'ENGINE': 'tenant_schemas.postgresql_backend',
+        'NAME': 'djangox_dts',
+        'USER': 'postgres',
+        'PASSWORD': 'kanchan188',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
-
+DATABASE_ROUTERS = (
+    'tenant_schemas.routers.TenantSyncRouter',
+)
 # PASSWORDS
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#auth-password-validators
@@ -171,3 +207,8 @@ ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
+
+STRIPE_SECRET_KEY = 'sk_test_51I3g62J1ikzONGpMubYv9ReTwlSTtDKm3nhJT9Lj9rnyO8zO99zlAnelCLxEBTp9hmjSFST2SBdDJFajcLlOUtEN00iV4qXHUb'
+STRIPE_PUBLISHABLE_KEY = 'pk_test_51I3g62J1ikzONGpMlB5ciDEs5ldTjeCJ7vjoOwoc7XPamSSv2t48nhQ91FxF8VhMpJVuaLRyQzcc84M3WnU2WV5600fsGSqnQA'
+STRIPE_PLAN_MONTHLY_ID = 'price_1I3hcpJ1ikzONGpMK4TM0nQU'
+STRIPE_PLAN_ANNUAL_ID = 'price_1I3hcpJ1ikzONGpMVbHyw4JC'

@@ -1,0 +1,29 @@
+{% extends "_base.html" %}
+
+{% block content %}
+<form method="POST" action="{% url 'org_payment_method' %}">
+    {% csrf_token %}
+    <div class="form-group">
+        <label for="exampleFormControlInput1">Plan</label>
+        <select class="form-control" id="plan">
+            <option>Monthly $99</option>
+            <option>Annual $999</option>
+            
+        </select>
+        </div>
+    <div class="form-group">
+        <label for="auto_renewal">Auto-Renew</label>
+        <input type="checkbox" id="auto_renewal">
+    </div>
+    <div class="form-group">
+        <label for="exampleFormControlSelect1">PAyMENT GATEWAY</label>
+        <select class="form-control" id="payment_gateway">
+            <option>card</option>
+            <option>Paypal</option>
+            
+        </select>
+    </div>
+    
+    <button type="submit" class = "brn brn-success mb-2">Continue</button>
+</form>
+{% endblock %}
