@@ -23,7 +23,7 @@ def change_schema(request):
 @login_required
 def companylist(request):
     paid = False
-    is_owner = False
+    is_owner = True
     if request.user.is_anonymous:
         c = 'Public'
     elif request.user.company:

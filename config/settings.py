@@ -31,7 +31,9 @@ SHARED_APPS = [
 ]
 TENANT_APPS = [
     'django.contrib.contenttypes',
-    'contacts','dea',
+    'dea',
+    'contact',
+    'girvi',
 ]
 INSTALLED_APPS = [
     'tenant_schemas',
@@ -45,16 +47,20 @@ INSTALLED_APPS = [
     'django.contrib.sites',
 
     # Third-party
+    'django_select2',
     'allauth',
     'allauth.account',
-    'crispy_forms',
+    'crispy_forms','bootstrap4',
     'debug_toolbar',
     'mptt',
+    'django_filters','django_tables2',
+    'tempus_dominus',
 
     # Local
     'accounts',
     'pages',
-    'org','contacts', 'dea',
+    'org','dea',
+    'contact','girvi',
     ]
 TENANT_MODEL = "org.Company"
 PUBLIC_SCHEMA_NAME = 'public'
@@ -112,7 +118,7 @@ DATABASES = {
     'default': {
 
         'ENGINE': 'tenant_schemas.postgresql_backend',
-        'NAME': 'djangox_dts',
+        'NAME': 'django_dts_onex',
         'USER': 'postgres',
         'PASSWORD': 'kanchan188',
         'HOST': 'localhost',

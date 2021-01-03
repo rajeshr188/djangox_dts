@@ -5,7 +5,12 @@ class RequestUserTenantMiddleware(BaseTenantMiddleware):
     
     def get_tenant(self,model,hostname,request):
         try:
-            ps = model.objects.get(schema_name = get_public_schema_name())
+            ps = model.objects.get(schema_name=get_public_schema_name())
+        except model.DoesNotExist:
+            print("create public schema first")
+
+            ps='public'
+        try:
             if not request.user.is_anonymous and request.user.company:
                 tenant_model = request.user.company
             else:
@@ -13,6 +18,5 @@ class RequestUserTenantMiddleware(BaseTenantMiddleware):
             print(tenant_model,ps)
             return tenant_model
         except model.DoesNotExist:
-            print("create public schema first")
-            return ps
-        
+            print("create user schema first")
+            return ps     
