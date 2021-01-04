@@ -25,6 +25,7 @@ django-tempus-dominus = "*"
 django-select2 = "*"
 python-dateutil = "*"
 openpyxl = "*"
+django-import-export = "*"
 
 [requires]
 python_version = "3.8"

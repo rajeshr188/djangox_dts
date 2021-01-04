@@ -51,11 +51,11 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'crispy_forms','bootstrap4',
-    'debug_toolbar',
+    'debug_toolbar','import_export',
     'mptt',
     'django_filters','django_tables2',
     'tempus_dominus',
-
+    'dynamic_preferences',
     # Local
     'accounts',
     'pages',

@@ -2,6 +2,20 @@
 {% load static %}
 {% load bootstrap4 %}
 {% block content %}
+
+<script type="text/javascript">
+
+  $(function () {
+   
+      $(document).on('change', '#id_series', function (evt) {
+        var series_data = {{ series }
+      };
+      $('#id_lid').val(parseInt(series_data[evt.target.value]) + 1);
+    });
+  
+  });
+
+</script>
 {{form.media}}
 <p><a class="btn btn-default" href="{% url 'girvi_loan_list' %}">Loan Listing</a></p>
 {%if series%}
@@ -53,21 +67,10 @@
       {% bootstrap_field form.itemdesc %}
     </div>
   </div>
-  <button class="btn btn-primary" type="submit">Save Loan</button>
+  <button class="btn btn-primary" id="submitbutton"  type="submit">Save Loan</button>
 </form>
 {%else%}
 <a class = "btn btn-primary" href="{% url 'girvi_series_create' %}">Create Series</a>
 {%endif%}
 
-<script type="text/javascript">
-  $(function(){
-    $(document).ready(function(){
-      $(document).on('change', '#id_series', function(evt) {
-        var series_data = {{series}}
-        $('#id_lid').val(parseInt(series_data[evt.target.value])+1)
-
-      });
-    })
-  });
-</script>
 {% endblock %}
